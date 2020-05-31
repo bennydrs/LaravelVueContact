@@ -48,7 +48,7 @@ export default {
         loadData(){
             axios.get('http://localhost:8000/api/contacts')
             .then(res => {
-                this.contacts = res.data;
+                this.contacts = res.data.data;
             });
         },
         deleteData(id){

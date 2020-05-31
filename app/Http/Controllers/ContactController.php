@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\Http\Resources\ContactResource;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        return Contact::all();
+        $contacts = Contact::all();
+        return ContactResource::collection($contacts);
     }
 
     public function show($id)
