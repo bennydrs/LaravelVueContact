@@ -18,8 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/contacts', 'ContactController@index');
-Route::get('/contact/{id}', 'ContactController@show');
-Route::post('/contact', 'ContactController@store');
-Route::put('/contact/{id}', 'ContactController@update');
-Route::delete('/contact/{id}', 'ContactController@destroy');
+Route::post('/register', 'Auth\AuthController@register');
+Route::post('/login', 'Auth\AuthController@login');
+
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('/users', 'UserController@index');
+    
+    Route::get('/contacts', 'ContactController@index');
+    Route::get('/contact/{id}', 'ContactController@show');
+    Route::post('/contact', 'ContactController@store');
+    Route::put('/contact/{id}', 'ContactController@update');
+    Route::delete('/contact/{id}', 'ContactController@destroy');
+    Route::post('/logout', 'Auth\AuthController@logout');
+});
+
