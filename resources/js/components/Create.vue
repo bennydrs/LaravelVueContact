@@ -42,11 +42,18 @@ export default {
     methods: {
         addData(){
             this.isLoading = true
-            // post data
-            axios.post('http://localhost:8000/api/contact', {
+
+            let headers = {
+                headers:{
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                }
+            }
+            let postData = {
                 name: this.name,
                 phone: this.phone
-            })
+            }
+            // post data
+            axios.post('http://localhost:8000/api/contact', postData, headers)
             .then(res => {
                 // push router ke read data
                 this.isLoading = false

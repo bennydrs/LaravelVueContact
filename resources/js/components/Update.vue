@@ -25,7 +25,12 @@ export default {
     data(){
         return{
             name: '',
-            phone: ''
+            phone: '',
+            token: {
+                headers:{
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                }
+            }
         }
     },
     created(){
@@ -35,7 +40,7 @@ export default {
     methods:{
         loadData(){
             // load bedasarkan id
-            axios.get('http://localhost:8000/api/contact/' + this.$route.params.id)
+            axios.get('http://localhost:8000/api/contact/' + this.$route.params.id, this.token)
             .then(res => {
                 this.name = res.data.name;
                 this.phone = res.data.phone;
@@ -45,7 +50,7 @@ export default {
             axios.put('http://localhost:8000/api/contact/' + this.$route.params.id, {
                 name: this.name,
                 phone: this.phone
-            }).then(res => {
+            }, this.token).then(res => {
                 // push
                 this.$router.push("/")
             })

@@ -1,43 +1,44 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 
-window.Vue = require('vue');
-
-import VueRouter from 'vue-router';
-import VueAxios from 'vue-axios';
-import Axios from 'axios';
-
-Vue.use(VueRouter, VueAxios, Axios);
-
+import Vue from "vue";
 import App from './components/App.vue';
-import Create from './components/Create.vue';
-import Read from './components/Read.vue';
-import Update from './components/Update.vue';
+import router from './router';
+import store from './store';
 
-// router
-const routes = [
-    {
-        name: 'read',
-        path: '/',
-        component: Read
-    },
-    {
-        name: 'create',
-        path: '/create',
-        component: Create
-    },
-    {
-        name: 'update',
-        path: '/detail/:id',
-        component: Update
+// new Vue(Vue.util.extend({
+//     router,
+//     store
+// }, App))
+// .$mount('#app');
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (!store.getters.loggedIn) {
+        next({
+          name: 'login',
+        })
+      } else {
+        next()
+      }
+    } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+      if (store.getters.loggedIn) {
+        next({
+          name: 'read',
+        })
+      } else {
+        next()
+      }
+    } else {
+      next()
     }
-]
+})
 
-const router = new VueRouter({mode: 'history', routes: routes});
-new Vue(Vue.util.extend({router}, App)).$mount('#app');
+const app = new Vue({
+    el: "#app",
+
+    router: router,
+    store,
+
+    render: h => h(App)
+});
 

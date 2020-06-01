@@ -38,7 +38,12 @@
 export default {
     data(){
         return {
-            contacts: []
+            contacts: [],
+            token: {
+                headers:{
+                    'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                }
+            }
         }
     },
     created(){
@@ -46,14 +51,14 @@ export default {
     },
     methods:{
         loadData(){
-            axios.get('http://localhost:8000/api/contacts')
+            axios.get('/api/contacts', this.token)
             .then(res => {
                 this.contacts = res.data.data;
             });
         },
         deleteData(id){
             if(confirm('Are you sure?')){
-                axios.delete('http://localhost:8000/api/contact/'+ id)
+                axios.delete('http://localhost:8000/api/contact/'+ id, this.token)
                 .then(res => {
                     this.loadData();
                 });
