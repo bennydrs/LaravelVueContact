@@ -5,6 +5,9 @@
                 <div class="col-md-6">
                     <div class="card card-body">
                         <h2 class="text-center">Login</h2>
+                        <div v-if="serverError" class="alert alert-danger">
+                            {{ serverError }}
+                        </div>
                         <form action="" @submit.prevent="login">
                             <div class="form-group">
                                 <label for="">Email</label>
@@ -28,7 +31,8 @@ export default {
     data(){
         return{
             email: '',
-            password: ''
+            password: '',
+            serverError: ''
         }
     },
     methods:{
@@ -37,14 +41,13 @@ export default {
                 email: this.email,
                 password: this.password
             })
-            .then(res => {
+            .then(response => {
                 this.$router.push({name: 'read'})
             })
             .catch(error => {
-					this.serverError = error.res.data
-					this.password = ''
-					this.successMessage = ''
-				})
+                this.serverError = error.response.data
+                this.password = ''
+            })
         }
     }
 }

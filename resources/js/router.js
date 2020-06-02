@@ -5,6 +5,7 @@ import Read from './components/Read.vue';
 import Update from './components/Update.vue';
 import Login from './components/Auth/Login.vue';
 import Logout from './components/Auth/Logout.vue';
+import Register from './components/Auth/Register.vue';
 
 Vue.use(VueRouter)
 
@@ -46,7 +47,15 @@ const routes = [
         name: 'logout',
         path: '/logout',
         component: Logout
-    }
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: Register,
+        meta: {
+          requiresVisitor: true,
+        }
+      },
 ]
 
 const router = new VueRouter({

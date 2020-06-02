@@ -25,20 +25,19 @@ class AuthController extends Controller
         ]);
 
         if($response->clientError()){
-            return $response->json('username atau password salah', 400);
+            return response()->json('username atau password salah', 400);
         } else if($response->serverError()){
-            return $response->json('server error', 500);
-        }
-
+            return response()->json('server error', 500);
+        } 
         return $response->body();
     }
 
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users',
-            'password' => 'required'
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
         ]);
 
         User::create([

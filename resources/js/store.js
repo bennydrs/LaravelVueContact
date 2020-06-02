@@ -16,22 +16,37 @@ const store = new Vuex.Store({
         },
     },
     actions:{
-        login(context, payload){
+        register(context, payload){
             return new Promise((resolve, reject) => {
-                axios.post('/api/login', {
+                axios.post('/api/register', {
+                    name: payload.name,
                     email: payload.email,
-                    password: payload.password,
+                    password: payload.password
                 })
                 .then(res => {
-                    const token = res.data.access_token
-                    // console.log(res.data)
-                    localStorage.setItem('access_token', token)
-                    context.commit('setToken', token)
-                    resolve(res) 
+                    resolve(res)
                 })
                 .catch(err => {
                     reject(err)
                 })
+            })
+        },
+        login(context, credentials){
+            return new Promise((resolve, reject) => {
+                axios.post('/api/login', {
+                  email: credentials.email,
+                  password: credentials.password,
+                })
+                  .then(response => {
+                    const token = response.data.access_token
+        
+                    localStorage.setItem('access_token', token)
+                    context.commit('retrieveToken', token)
+                    resolve(response)
+                  })
+                  .catch(error => {
+                    reject(error)
+                  })           
             })
         },
         logout(context){
