@@ -4,6 +4,15 @@ import Vue from "vue";
 import App from './components/App.vue';
 import router from './router';
 import store from './store';
+import { ValidationProvider, extend, ValidationObserver } from "vee-validate";
+// import * as rules from 'vee-validate/dist/rules';
+
+Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('ValidationProvider', ValidationProvider);
+
+// Object.keys(rules).forEach(rule => {
+//     extend(rule, rules[rule]);
+//   });
 
 // new Vue(Vue.util.extend({
 //     router,
@@ -33,10 +42,12 @@ router.beforeEach((to, from, next) => {
     }
 })
 
+
+
 const app = new Vue({
     el: "#app",
 
-    router: router,
+    router,
     store,
 
     render: h => h(App)

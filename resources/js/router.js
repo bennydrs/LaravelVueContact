@@ -39,6 +39,7 @@ const routes = [
         name: 'login',
         path: '/login',
         component: Login,
+        props: true,
         meta: {
             requiresVisitor: true,
           }

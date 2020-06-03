@@ -5,6 +5,10 @@
                 <div class="col-md-6">
                     <div class="card card-body">
                         <h2 class="text-center">Login</h2>
+                        <div v-if="successMessage" class="alert alert-success">
+                            {{ successMessage }}
+                        </div>
+
                         <div v-if="serverError" class="alert alert-danger">
                             {{ serverError }}
                         </div>
@@ -32,7 +36,13 @@ export default {
         return{
             email: '',
             password: '',
-            serverError: ''
+            serverError: '',
+            successMessage: this.dataSuccessMessage
+        }
+    },
+    props: {
+        dataSuccessMessage: {
+            type : String
         }
     },
     methods:{
@@ -46,7 +56,8 @@ export default {
             })
             .catch(error => {
                 this.serverError = error.response.data
-                this.password = ''
+                this.password = '',
+                this.successMessage = ''
             })
         }
     }

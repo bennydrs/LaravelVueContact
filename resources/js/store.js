@@ -8,10 +8,10 @@ const store = new Vuex.Store({
         token: localStorage.getItem('access_token') || null,
     },
     mutations: {
-        setToken(state, token){
+        retrieveToken(state, token){
             state.token = token
         },
-        destroToken(state) {
+        destroyToken(state) {
             state.token = null
         },
     },
